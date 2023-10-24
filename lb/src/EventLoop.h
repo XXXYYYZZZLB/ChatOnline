@@ -1,8 +1,13 @@
 #pragma once
 #include <memory>
-#include "include/Epoll.h"
-#include "include/Channel.h"
+#include "Epoll.h"
+#include "Channel.h"
 #include <mutex>
+
+class Channel;
+class Epoll;
+typedef std::shared_ptr<Channel> SP_Channel;
+
 class EventLoop
 {
 private:

@@ -1,6 +1,11 @@
 #pragma once
 #include <functional>
 #include <memory>
+#include "EventLoop.h"
+#include "HandleData.h"
+
+class HandleData;
+class EventLoop;
 
 // Fd 包装类
 class Channel
@@ -16,9 +21,16 @@ private:
     CallBack writeHandler_;
     CallBack errorHandler_;
 
+    EventLoop *loop_;
+
+    // 方便找到上层持有该Channel的对象
+    std::weak_ptr<HandleData> holder_;
+
 public:
     Channel();
     Channel(int fd);
+    Channel(EventLoop *loop);
+    Channel(EventLoop *loop, int fd);
     ~Channel();
 
     int getFd();
@@ -37,6 +49,10 @@ public:
     void handleRead();
     void handleWrite();
     void handleError();
+
+    // setHolder 和 getHolder 方法用于设置和获取持有该 Channel 对象的 HttpData 对象
+    void setHolder(std::shared_ptr<HandleData> holder);
+    std::shared_ptr<HandleData> getHolder();
 };
 
 typedef std::shared_ptr<Channel> SP_Channel;

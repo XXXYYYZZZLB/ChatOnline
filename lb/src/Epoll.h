@@ -2,7 +2,10 @@
 #include <sys/epoll.h>
 #include <vector>
 #include <memory>
-#include "include/Channel.h"
+#include "Channel.h"
+
+class Channel;
+typedef std::shared_ptr<Channel> SP_Channel;
 
 class Epoll
 {

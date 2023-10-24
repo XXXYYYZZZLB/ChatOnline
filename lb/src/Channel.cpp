@@ -1,8 +1,14 @@
-#include "include/Channel.h"
+#include "Channel.h"
 #include <sys/epoll.h>
+#include <iostream>
 #include <iostream>
 
 Channel::Channel() {}
+
+Channel::Channel(EventLoop *loop)
+    : loop_(loop), events_(0), fd_(0) {}
+Channel::Channel(EventLoop *loop, int fd)
+    : loop_(loop), events_(0), fd_(fd) {}
 
 Channel::Channel(int fd) : fd_(fd) {}
 
@@ -45,6 +51,7 @@ void Channel::handleEvents()
     {
         handleWrite();
     }
+    std::cout << "handleEvents() conn" << std::endl;
 }
 
 void Channel::handleRead()
@@ -61,4 +68,11 @@ void Channel::handleError()
 {
     if (errorHandler_ != nullptr)
         errorHandler_();
+}
+
+void Channel::setHolder(std::shared_ptr<HandleData> holder) { holder_ = holder; }
+std::shared_ptr<HandleData> Channel::getHolder()
+{
+    std::shared_ptr<HandleData> ret(holder_.lock());
+    return ret;
 }

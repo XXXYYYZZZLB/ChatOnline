@@ -1,4 +1,4 @@
-#include "include/EventLoop.h"
+#include "EventLoop.h"
 #include <sys/eventfd.h>
 #include <iostream>
 #include <unistd.h>
@@ -121,11 +121,11 @@ void EventLoop::removeFromPoller(SP_Channel channel)
 {
     poller_->epoll_del(channel);
 }
-void EventLoop::updatePoller(SP_Channel channel, int timeout = 0)
+void EventLoop::updatePoller(SP_Channel channel, int timeout)
 {
     poller_->epoll_mod(channel, timeout);
 }
-void EventLoop::addToPoller(SP_Channel channel, int timeout = 0)
+void EventLoop::addToPoller(SP_Channel channel, int timeout)
 {
     poller_->epoll_add(channel, timeout);
 }
