@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>friendicon.png</file>
+        <file>groupicon.png</file>
+        <file>wicon.png</file>
+    </qresource>
+</RCC>
